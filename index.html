@@ -103,10 +103,44 @@ const days=['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Paz
 function cellInput(name,placeholder='',type='text'){return `<input name="${name}" placeholder="${placeholder}" type="${type}">`}
 function buildRows(){document.getElementById('weeklyRows').innerHTML=days.map((d,i)=>`<tr><td><strong>${d}</strong></td><td>${cellInput('week_time_'+i,'Saat / süre')}</td><td>${cellInput('week_task_'+i,'Ödev / iş')}</td><td>${cellInput('week_focus_'+i,'Odak + hedef')}</td><td>${cellInput('week_review_'+i,'Tekrar / soru')}</td></tr>`).join('');document.getElementById('errorRows').innerHTML=Array.from({length:4},(_,i)=>`<tr><td>${cellInput('error_subject_'+i)}</td><td>${cellInput('error_type_'+i)}</td><td>${cellInput('error_reason_'+i)}</td><td style="text-align:center"><input type="checkbox" name="error_redone_${i}"></td></tr>`).join('');document.getElementById('reviewRows').innerHTML=Array.from({length:5},(_,i)=>`<tr><td>${cellInput('review_topic_'+i)}</td><td>${cellInput('review_1d_'+i,'Tarih / sonuç')}</td><td>${cellInput('review_3d_'+i,'Tarih / sonuç')}</td><td>${cellInput('review_1w_'+i,'Tarih / sonuç')}</td><td>${cellInput('review_2w_'+i,'Tarih / sonuç')}</td><td>${cellInput('review_result_'+i)}</td></tr>`).join('');const fw=[['1','Kendi haftalık planımı kurarım','Bu plan benim için gerçekçi mi?'],['2','Uygulanan ve aksayan adımları fark ederim','Neyi koruyalım, neyi sadeleştirelim?'],['3','Bir yanlışımı türüne göre incelerim','Gelecek hafta hangi küçük çalışma bana yardımcı olur?'],['4','Dört haftayı gözden geçiririm','İşe yarayan düzen neydi; desteğe ihtiyacım var mı?']];document.getElementById('fourWeekRows').innerHTML=fw.map((r,i)=>`<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td>${cellInput('week_note_'+i)}</td></tr>`).join('');document.getElementById('dailyRows').innerHTML=[1,2,3].map(i=>`<tr><td><strong>${i}</strong></td><td>${cellInput('daily_subject_'+i)}</td><td>${cellInput('daily_goal_'+i)}</td><td>${cellInput('daily_done_'+i)}</td><td>${cellInput('daily_review_'+i,'Tarih')}</td></tr>`).join('')}
 function formData(){const f=new FormData(document.getElementById('studyForm')),o={submittedAt:new Date().toISOString()};for(const [k,v] of f.entries()){if(o[k]!==undefined){o[k]=Array.isArray(o[k])?o[k].concat(v):[o[k],v]}else{o[k]=v}};return o}
-// E-tabloya gidecek düz metin hâli: işaretlenen kutular okunur yazıya çevrilir, boş kalsa da her sütun gönderilir.
-function sheetData(){const o=formData(),p={};for(const [k,v] of Object.entries(o))p[k]=Array.isArray(v)?v.join('; '):v;
-['routine','errorType'].forEach(k=>{p[k]=o[k]===undefined?'':[].concat(o[k]).join('; ')});
-for(let i=0;i<4;i++)p['error_redone_'+i]=o['error_redone_'+i]?'Evet':'Hayır';return p}
+
+// Alan adını, sayfadaki Türkçe etiketlerden oluşan e-tablo başlığına çevirir.
+// Örnek: "00 Başlangıç – Öğrencinin adı soyadı", "02 Haftanı planla – Pazartesi – Saat / süre"
+function headerFor(name){
+  const el=document.querySelector(`[name="${CSS.escape(name)}"]`);
+  if(!el)return name;
+  const sec=el.closest('.section');
+  if(!sec)return name;
+  const pre=sec.querySelector('.num').textContent.trim()+' '+sec.querySelector('h2').textContent.trim();
+  if(name==='routine')return pre+' – Çalışma alışkanlıklarım';
+  if(name==='errorType')return pre+' – Hata türleri';
+  const td=el.closest('td');
+  if(td){
+    const tr=td.parentElement,table=td.closest('table');
+    const col=table.querySelectorAll('thead th')[td.cellIndex].textContent.trim();
+    const first=tr.cells[0];
+    let row=first.querySelector('input')?'Satır '+tr.rowIndex:first.textContent.trim();
+    if(/^\d+$/.test(row))row='Satır '+row;
+    return pre+' – '+row+' – '+col;
+  }
+  const lab=el.id&&document.querySelector(`label[for="${el.id}"]`);
+  return pre+' – '+(lab?lab.textContent.trim():name);
+}
+
+// E-tabloya gidecek düz metin hâli: başlıklar Türkçe etiketlerle, işaretli kutular okunur yazıyla gönderilir.
+function sheetData(){
+  const o=formData(),p={};
+  for(const [k,v] of Object.entries(o)){
+    if(k==='submittedAt')continue; // Apps Script "Gönderim Tarihi" sütununu zaten ekliyor
+    p[k]=Array.isArray(v)?v.join('; '):v;
+  }
+  ['routine','errorType'].forEach(k=>{p[k]=o[k]===undefined?'':[].concat(o[k]).join('; ')});
+  for(let i=0;i<4;i++)p['error_redone_'+i]=o['error_redone_'+i]?'Evet':'Hayır';
+  const out={};
+  for(const [k,v] of Object.entries(p))out[headerFor(k)]=v;
+  return out;
+}
+
 function restore(){let o;try{o=JSON.parse(localStorage.getItem(STORAGE_KEY)||'null')}catch(e){o=null}if(!o)return;for(const [k,v] of Object.entries(o)){const els=document.querySelectorAll(`[name="${CSS.escape(k)}"]`);if(!els.length)continue;if(els[0].type==='checkbox'){els.forEach(e=>e.checked=Array.isArray(v)?v.includes(e.value):v===e.value||v==='on')}else if(els.length===1)els[0].value=v;else els.forEach((e,i)=>e.value=Array.isArray(v)?v[i]||'':v)};if(o.effort){document.getElementById('effortOut').value=o.effort}updateProgress()}
 function saveForm(){localStorage.setItem(STORAGE_KEY,JSON.stringify(formData()));showToast('Cevapların bu cihazda kaydedildi.');document.getElementById('saveStatus').textContent='Son kayıt: '+new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}
 function clearForm(){if(confirm('Bu cihazdaki kayıtlı cevaplar silinsin mi?')){localStorage.removeItem(STORAGE_KEY);document.getElementById('studyForm').reset();document.getElementById('effortOut').value=3;updateProgress();showToast('Form temizlendi.')}}

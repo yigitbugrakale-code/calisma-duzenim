@@ -1,347 +1,346 @@
-<!doctype html>
-<html lang="tr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>7. Sınıf • Kendi Çalışma Düzenim</title>
-<style>
-:root{--navy:#0a113c;--navy2:#141d57;--ink:#0a113c;--muted:#5b6285;--paper:#fff;--bg:#f2f4fa;--gold:#dba24f;--gold2:#b9812c;--goldsoft:#fbf3e3;--accent:var(--gold);--accent2:var(--navy2);--line:#dde1ee;--soft:#f7f8fc;--shadow:0 18px 50px #0a113c1f}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
-body{margin:0;background:radial-gradient(900px 420px at 100% 0,#dba24f1f,transparent 70%),linear-gradient(180deg,#e9ecf6,var(--bg) 480px);background-color:var(--bg);color:var(--ink);font-family:"Plus Jakarta Sans",Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55}
-.wrap{max-width:1120px;margin:auto;padding:24px 16px 64px}
-.hero{background:linear-gradient(160deg,#0d1547 0%,var(--navy) 60%);color:#fff;border-radius:32px;padding:clamp(26px,5vw,56px);position:relative;overflow:hidden;box-shadow:var(--shadow);border:1px solid #dba24f55;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(20px,4vw,48px);align-items:center}
-.hero:before{content:"";position:absolute;left:-140px;top:-160px;width:420px;height:420px;border-radius:50%;border:1px solid #dba24f40;box-shadow:0 0 0 26px #dba24f0d,0 0 0 27px #dba24f33}
-.hero:after{content:"";position:absolute;right:-120px;bottom:-160px;width:420px;height:420px;border-radius:50%;border:2px solid #dba24f33;box-shadow:0 0 0 34px #dba24f0f}
-.herotext,.herologo{position:relative;z-index:1}
-.herologo{width:clamp(150px,22vw,250px);height:auto;border-radius:26px;border:2px solid var(--gold);box-shadow:0 0 0 7px #dba24f1f,0 24px 50px #00000066;display:block}
-.eyebrow{letter-spacing:.14em;text-transform:uppercase;font-size:.76rem;color:var(--gold);font-weight:800}
-.hero h1{font-size:clamp(2.1rem,5.2vw,4.1rem);line-height:1.04;margin:12px 0 14px;font-weight:800;letter-spacing:-.025em}
-.hero p{max-width:620px;color:#cfd4ee;margin:0}
-.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
-.btn{border:1px solid transparent;border-radius:12px;padding:11px 18px;font:inherit;font-weight:800;cursor:pointer;background:var(--gold);color:var(--navy);transition:transform .15s,background .15s,box-shadow .15s}
-.btn:hover{background:#e8b465;transform:translateY(-1px);box-shadow:0 8px 20px #dba24f40}
-.btn.secondary{background:#ffffff0f;color:#fff;border-color:#dba24f80}.btn.secondary:hover{background:#dba24f26;box-shadow:none}
-.btn.green{background:var(--navy);color:var(--gold);border-color:var(--gold)}.btn.green:hover{background:var(--navy2)}
-.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
-.status{font-size:.82rem;color:#cfd4ee;align-self:center}
-.progressbox{position:sticky;top:0;z-index:4;background:#f2f4faee;backdrop-filter:blur(12px);padding:10px 0}
-.progressline{height:9px;background:#d9ddee;border-radius:99px;overflow:hidden}
-.progressfill{height:100%;width:0;background:linear-gradient(90deg,var(--navy2),var(--gold));transition:.25s;border-radius:99px}
-.progressmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:.8rem;margin:5px 0;font-weight:600}
-.section{background:var(--paper);border:1px solid #e6e9f4;border-top:3px solid var(--gold);border-radius:22px;padding:clamp(20px,4vw,38px);margin:22px 0;box-shadow:var(--shadow);scroll-margin-top:66px}
-.sectionhead{display:flex;gap:16px;align-items:flex-start;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:22px}
-.num{width:46px;height:46px;border-radius:14px;background:var(--navy);color:var(--gold);display:grid;place-items:center;font-weight:800;flex:none;box-shadow:inset 0 0 0 1.5px #dba24f88}
-.section h2{margin:0 0 4px;font-size:clamp(1.3rem,3vw,1.9rem);letter-spacing:-.015em;color:var(--navy)}
-.section h3{color:var(--navy)}
-.sectionhead p{margin:0;color:var(--muted)}
-.note{background:var(--goldsoft);border-left:4px solid var(--gold);padding:13px 16px;border-radius:10px;margin:15px 0;color:#5a4012}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
-.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}
-label,.label{font-weight:700;font-size:.92rem;color:var(--navy)}
-.hint{font-size:.8rem;color:var(--muted);font-weight:500}
-input,textarea,select{font:inherit;color:var(--ink);border:1px solid var(--line);border-radius:11px;padding:11px 12px;background:#fbfcff;outline:0;transition:.15s}
-input:focus,textarea:focus,select:focus{border-color:var(--gold2);box-shadow:0 0 0 3px #dba24f33;background:#fff}
-textarea{min-height:90px;resize:vertical}
-.checkgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-.check{display:flex;gap:9px;align-items:flex-start;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:var(--soft);font-weight:600;color:var(--navy);transition:border-color .15s,background .15s}
-.check:has(input:checked){border-color:var(--gold);background:var(--goldsoft)}
-.check input{margin-top:3px;accent-color:var(--navy2)}
-.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:14px;margin:14px 0}
-.table{width:100%;border-collapse:collapse;min-width:720px}
-.table th{background:var(--navy);color:var(--gold);text-align:left;padding:11px 10px;font-size:.82rem;letter-spacing:.02em}
-.table tbody tr:nth-child(even){background:#f8f9fd}
-.table td{border-top:1px solid var(--line);padding:8px;vertical-align:top}
-.table input,.table textarea,.table select{width:100%;min-width:110px;padding:8px}.table textarea{min-height:58px}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
-.card{border:1px solid var(--line);border-top:3px solid var(--gold);border-radius:15px;padding:16px;background:linear-gradient(180deg,#fff,var(--soft))}
-.card h3{margin:0 0 6px;font-size:1rem}.card p{margin:0;color:var(--muted);font-size:.9rem}
-.footer-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:28px}
-.small{font-size:.78rem;color:var(--muted)}
-.toast{max-width:min(92vw,440px);position:fixed;right:18px;bottom:18px;background:var(--navy);color:var(--gold);border:1px solid var(--gold);padding:12px 16px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);pointer-events:none;transition:.2s;z-index:9}
-.toast.show{opacity:1;transform:none}
-@media(max-width:700px){.grid,.grid.three,.checkgrid,.cards{grid-template-columns:1fr}.hero{border-radius:22px;padding:26px 20px;grid-template-columns:1fr}.herologo{order:-1;width:130px}.section{border-radius:17px;padding:20px 16px}.btn{flex:1}.toolbar .status{flex-basis:100%}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
-@media print{body{background:#fff}.hero{box-shadow:none;color:#000;background:#fff;border:2px solid var(--navy)}.hero:before,.hero:after{display:none}.hero p,.status,.eyebrow{color:#000}.herologo{width:110px;box-shadow:none}.progressbox,.toolbar,.footer-actions{display:none}.section{box-shadow:none;break-inside:avoid;margin:10px 0}.sectionhead{break-after:avoid}}
+/**
+ * 7. Sınıf Kendi Çalışma Düzenim
+ * Google E-Tablolar cevap kayıt sistemi
+ */
 
-.how{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:22px 0 4px}
-.how div{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;box-shadow:0 6px 20px #0a113c10}
-.how b{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:var(--navy);color:var(--gold);margin-bottom:8px}
-.how h3{margin:0 0 4px;font-size:1.02rem;color:var(--navy)}.how p{margin:0;color:var(--muted);font-size:.9rem}
-.how .t{color:var(--gold2);font-weight:800;font-size:.75rem;letter-spacing:.08em}
-.chips{display:flex;gap:8px;overflow-x:auto;padding:8px 0 2px;scrollbar-width:thin}
-.chips a{flex:none;text-decoration:none;font-size:.78rem;font-weight:700;color:var(--navy);background:#fff;border:1px solid var(--line);border-radius:99px;padding:5px 12px}
-.chips a:hover,.chips a:focus-visible{border-color:var(--gold);background:var(--goldsoft)}
-.tag{display:inline-block;font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);margin-bottom:2px}
-.guide{background:var(--soft);border:1px solid var(--line);border-radius:14px;padding:0;margin:0 0 22px}
-.guide summary{cursor:pointer;font-weight:800;color:var(--navy);padding:12px 16px;list-style:none;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.guide summary::-webkit-details-marker{display:none}
-.guide summary:before{content:"▸";color:var(--gold2);transition:transform .15s}.guide[open] summary:before{transform:rotate(90deg)}
-.meta{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}.meta span{font-size:.74rem;font-weight:700;background:#fff;border:1px solid var(--line);border-radius:99px;padding:2px 10px;color:var(--muted)}
-.guide .body{padding:0 18px 16px}.guide ol{margin:6px 0 10px;padding-left:22px}.guide li{margin:5px 0}
-.guide .ex{background:var(--goldsoft);border-left:4px solid var(--gold);border-radius:8px;padding:9px 13px;font-size:.9rem;color:#5a4012}
-.scrollhint{display:none;font-size:.76rem;color:var(--muted);margin:8px 0 -6px}
-.sub{margin:22px 0 6px}.sub+p.small{margin:0 0 8px}
-@media(max-width:700px){.how{grid-template-columns:1fr}.meta{margin-left:0}.scrollhint{display:block}}
-@media print{.guide .body,.how,.chips{display:none}.guide summary{display:none}}
+var CONFIG = {
+  SPREADSHEET_ID: '1JdX24viGgL6LOc70ARA_op5qQGVmqxVb2wZv0a_2Qbs',
+  SHEET_ID: 416192248,
+  TIMESTAMP_HEADER: 'Gönderim Tarihi',
+  MAX_FIELDS: 400,
+  MAX_CELL_CHARS: 40000
+};
 
-.section{scroll-margin-top:140px}.step{display:none}.step.on{display:block}
-.btn.light{background:var(--paper);color:var(--ink);border-color:var(--line)}.btn.light:hover{background:var(--soft);box-shadow:none}
-.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
-.wiznav{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:18px 0}.wiznav span{font-weight:800;color:var(--muted);font-size:.9rem}
-.chips a{position:relative}.chips a.on{background:var(--navy);color:var(--gold);border-color:var(--navy)}
-.chips a.done{border-color:#2f9e6b;background:#e6f6ee}.chips a.on.done{background:var(--navy)}
-.chips .ck:after{content:"✓";color:#2f9e6b;font-style:normal;margin-left:5px;opacity:0}.chips .done .ck:after{opacity:1}
-.streak{font-size:.84rem;font-weight:700;color:var(--gold2);margin:6px 0 0}
-.timer{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center;background:var(--navy);color:#fff;border-radius:18px;padding:18px 22px;margin:0 0 20px}
-.timer .tag{color:var(--gold)}.ttime{font-size:clamp(2.6rem,9vw,3.6rem);font-weight:800;line-height:1;font-variant-numeric:tabular-nums;color:var(--gold)}.tmode{font-weight:800}
-.tctl{display:flex;flex-wrap:wrap;gap:8px;align-items:center}.tctl .d{background:#ffffff14;color:#fff;border:1px solid #dba24f80;border-radius:99px;padding:6px 14px;font:inherit;font-weight:700;cursor:pointer}.tctl .d[aria-pressed=true]{background:var(--gold);color:var(--navy)}
-.timer p{grid-column:1/-1;margin:0;color:#cfd4ee}
-#effortChart svg{width:100%;max-width:420px;height:auto}
-@media screen and (max-width:700px){.timer{grid-template-columns:1fr}.scrollhint{display:none!important}.table{min-width:0}.table thead{display:none}.table,.table tbody,.table tr,.table td{display:block;width:100%}.table tr{border:1px solid var(--line);border-radius:12px;margin:10px 0;padding:6px 8px}.table td{border:0;padding:5px 2px}.table td:before{content:attr(data-label);display:block;font-size:.74rem;font-weight:800;color:var(--gold2);margin-bottom:2px}.table input,.table select,.table textarea{min-width:0}.tablewrap{border:0}}
-[data-theme=dark]{color-scheme:dark;--paper:#141a3d;--bg:#0a0e29;--ink:#e9ecfa;--muted:#a9b0d4;--line:#2c3668;--soft:#1a2150;--goldsoft:#2b2616;--shadow:0 18px 50px #0009}
-[data-theme=dark] body{background:var(--bg)}[data-theme=dark] .progressbox{background:#0a0e29ee}[data-theme=dark] .progressline{background:var(--line)}
-[data-theme=dark] label,[data-theme=dark] .label,[data-theme=dark] .section h2,[data-theme=dark] .section h3,[data-theme=dark] .check,[data-theme=dark] .card h3,[data-theme=dark] .how h3,[data-theme=dark] .guide summary,[data-theme=dark] .chips a{color:var(--ink)}
-[data-theme=dark] input,[data-theme=dark] textarea,[data-theme=dark] select{background:#0f1438}[data-theme=dark] input:focus,[data-theme=dark] textarea:focus,[data-theme=dark] select:focus{background:#161c4a}
-[data-theme=dark] .table tbody tr:nth-child(even){background:#181f4c}[data-theme=dark] .note,[data-theme=dark] .guide .ex{color:#f0d9a8}
-[data-theme=dark] .card{background:var(--soft)}[data-theme=dark] .how div,[data-theme=dark] .chips a,[data-theme=dark] .meta span{background:var(--paper)}
-[data-theme=dark] .chips a.on{background:var(--gold);color:var(--navy)}[data-theme=dark] .chips a.done{background:#12382b}
-.printfoot{display:none}
-@media print{@page{size:A4;margin:14mm 12mm 16mm}*{-webkit-print-color-adjust:exact;print-color-adjust:exact}html{font-size:90%!important}
-.step{display:block!important}.section{break-before:page;border:0;border-top:3px solid var(--gold);padding:12px 0 0;margin:0;border-radius:0}#s0{break-before:auto}
-.hero{background:#0a113c!important;color:#fff!important;border:0;border-radius:0;margin-bottom:12px}.hero p{color:#cfd4ee!important}.hero .eyebrow{color:var(--gold)!important}
-.guide,.how,.how+p,.chips,.timer,.wiznav,.streak,.scrollhint{display:none!important}.table{min-width:0;font-size:.8rem}textarea{min-height:80px}.tablewrap{overflow:visible}
-.printfoot{display:block;position:fixed;bottom:0;left:0;right:0;text-align:center;font-size:.7rem;color:var(--muted);border-top:1px solid var(--line);padding-top:4px}}
+var SCHEMA_CACHE_ = null;
 
-@media screen{
-:root:not([data-theme=dark]){--bg:#fbfbfd;--paper:#fff;--ink:#1d1d1f;--muted:#6e6e73;--line:#e8e8ed;--soft:#f5f5f7;--goldsoft:#fdf6e6;--shadow:0 8px 30px #0000000f}
-body{font-family:"SF Pro Display",-apple-system,BlinkMacSystemFont,Inter,"Plus Jakarta Sans","Segoe UI",sans-serif;background:var(--bg);-webkit-font-smoothing:antialiased}
-.wrap{max-width:1180px}
-.btn{border-radius:99px;background:var(--navy);color:#fff;border:0;font-weight:600;padding:12px 22px}.btn:hover{background:var(--navy2);box-shadow:0 6px 18px #0a113c33}.btn:active{transform:scale(.97)}
-.btn.green{background:var(--navy);color:#fff}.btn.light{background:var(--soft);color:var(--ink)}.btn.light:hover{background:var(--line);box-shadow:none}
-.hero{display:flex;flex-direction:column-reverse;align-items:center;text-align:center;background:none;color:var(--ink);border:0;box-shadow:none;border-radius:0;padding:clamp(36px,9vw,96px) 0 clamp(20px,4vw,40px)}
-.hero:before,.hero:after{display:none}.herologo{width:72px;border:0;box-shadow:0 6px 20px #0a113c33;border-radius:18px;margin-bottom:22px}
-.hero .eyebrow{color:#0071e3;letter-spacing:.12em}
-.hero h1{font-size:clamp(2.7rem,9vw,6rem);letter-spacing:-.045em;line-height:1;background:linear-gradient(180deg,#1d1d1f,#0a113c 60%,#3a4a9a);-webkit-background-clip:text;background-clip:text;color:transparent;margin:14px 0 18px}
-.hero p{color:var(--muted);font-size:clamp(1.05rem,2.4vw,1.4rem);max-width:680px;margin:0 auto}
-.toolbar{justify-content:center;align-items:center;margin-top:30px}
-.hero .btn.cta{padding:14px 34px;font-size:1.05rem}
-.hero .btn.secondary{background:transparent;color:var(--muted);border:1px solid var(--line);padding:8px 14px;font-size:.84rem;font-weight:600}.hero .btn.secondary:hover{background:var(--soft);box-shadow:none}
-.status{color:var(--muted);flex-basis:100%;text-align:center}
-.how div{border:0;border-radius:22px;box-shadow:0 2px 14px #0000000d}.how b{background:var(--soft);color:var(--ink);border-radius:50%}
-.progressbox{position:sticky;top:0;margin:0 -16px;padding:10px 16px 8px;background:#fbfbfdcc;-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid var(--line)}
-[data-theme=dark] .progressbox{background:#0a0e29cc}
-.progressline{height:4px;background:var(--line)}.progressfill{background:var(--ac,#0071e3)}
-.chips a{border:0;background:var(--soft);font-weight:600;transition:background .2s,color .2s}.chips a.on{background:var(--ink);color:var(--bg)}[data-theme=dark] .chips a.on{background:var(--ink);color:#0a0e29}.chips a.done{background:#e3f5ec}
-[data-theme=dark] .chips a.done{background:#12382b}
-.section{--ac:#0071e3;background:transparent;border:0;box-shadow:none;border-radius:0;padding:28px 0 12px;display:none;grid-template-columns:290px minmax(0,1fr);column-gap:36px;row-gap:0}
-#s2,#s3,#s4,#s5,#s9{--ac:#b9812c}#s6,#s7,#s8{--ac:#1f9d63}
-.step.on{display:grid;animation:rise .5s cubic-bezier(.2,.8,.2,1)}
-@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-.section>*{grid-column:2}.section>.sectionhead{grid-column:1/-1}
-.sectionhead{border:0;padding-bottom:6px;margin-bottom:18px;align-items:center;gap:20px}
-.num{width:auto;height:auto;background:none;box-shadow:none;color:var(--ac);font-size:clamp(3rem,9vw,5.5rem);line-height:1;letter-spacing:-.05em;font-weight:800}
-.section h2{font-size:clamp(1.9rem,5vw,3.2rem);letter-spacing:-.035em;line-height:1.05}
-.sectionhead p{font-size:1.08rem}.tag{color:var(--ac)}
-.guide{grid-column:1;grid-row:2/span 14;align-self:start;position:sticky;top:150px;margin:0;background:var(--paper);border:0;border-radius:22px;box-shadow:0 4px 24px #0000000f}
-.guide summary{padding:16px 18px 6px}.meta{margin:6px 0 0}
-.guide .ex{background:var(--soft);border-left:0;border-radius:12px;color:var(--muted)}[data-theme=dark] .guide .ex{color:#cfd4ee}
-input,textarea,select{background:var(--soft);border:1px solid transparent;border-radius:14px;padding:13px 14px}
-input:focus,textarea:focus,select:focus{background:var(--paper);border-color:var(--ac);box-shadow:0 0 0 4px color-mix(in srgb,var(--ac) 22%,transparent)}
-.check{border:0;border-radius:14px}.check:has(input:checked){background:var(--goldsoft);box-shadow:inset 0 0 0 2px var(--ac)}
-.note{border:0;border-radius:14px}
-.tablewrap{border:0;border-radius:18px;background:var(--paper);box-shadow:0 2px 14px #0000000d}
-.table th{background:transparent;color:var(--muted);text-transform:uppercase;font-size:.7rem;letter-spacing:.08em}.table tbody tr:nth-child(even){background:transparent}
-.card{border:0;border-radius:20px;background:var(--paper);box-shadow:0 2px 14px #0000000d}
-.timer{background:var(--navy);border-radius:28px;padding:26px;grid-template-columns:auto 1fr}
-.tring{position:relative;width:176px;height:176px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--gold) calc(var(--p,0)*1%),#ffffff1f 0)}
-.tring:before{content:"";position:absolute;inset:10px;border-radius:50%;background:var(--navy)}.tring .ttime{position:relative;font-size:2.4rem}
-.wiznav{margin:26px 0}.wiznav .btn{min-width:130px}
-@media(max-width:900px){.section,.step.on{grid-template-columns:1fr}.section>*,.guide{grid-column:1}.guide{position:static;grid-row:auto;margin-bottom:18px}.timer{grid-template-columns:1fr;justify-items:center;text-align:center}}
-@media(prefers-reduced-motion:reduce){.step.on{animation:none}}
-}
-</style>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet"><link rel="icon" id="favicon" href="data:,">
-</head>
-<body>
-<div class="wrap">
-<header class="hero">
-  <div class="herotext">
-  <div class="eyebrow">7. sınıf • evde çalışma rehberi</div>
-  <h1>Kendi çalışma düzenim</h1>
-  <p>Planla • öğren • geliş. Bu defter, nasıl çalıştığını fark etmene, haftanı planlamana ve öğrendiklerini gözden geçirmene yardım eder. Her bölümün başında ne yapacağın yazıyor; yukarıdan aşağı sırayla ilerlemen yeterli.</p>
-  <div class="toolbar"><button class="btn cta" type="button" onclick="document.querySelector('.progressbox').scrollIntoView({behavior:'smooth'})">Başla</button>
-    <button class="btn" type="button" onclick="saveForm()">Kaydet</button>
-    <button class="btn secondary" type="button" onclick="window.print()">Yazdır / PDF</button>
-    <button class="btn secondary" type="button" onclick="downloadJSON()">Cevaplarımı indir</button>
-    <button class="btn secondary" id="themeBtn" type="button">🌙 Koyu tema</button><button class="btn secondary" id="fontBtn" type="button">Yazı: A</button><span class="status" id="saveStatus">Cevapların bu cihazda otomatik saklanır.</span>
-  </div>
-  </div>
-  <img class="herologo" id="heroLogo" alt="TEMA Koleji logosu" width="447" height="447" style="display:none">
-</header>
-<div class="how" aria-label="Defter nasıl kullanılır">
-<div><b>1</b><div class="t">ADIM 1 • KENDİMİ TANIRIM</div><h3>Önce kendini fark et</h3><p>Bölüm 00–01: Adını yaz, en iyi çalıştığın zamanı ve seni dağıtan şeyleri not al. Yalnızca bir kez, yaklaşık 5 dakika.</p></div>
-<div><b>2</b><div class="t">ADIM 2 • PLANIMI KURARIM</div><h3>Planla ve çalış</h3><p>Bölüm 02–05 ve 09: Haftanı planla, her gün küçük bir hedefle çalış, notlarını ve sorularını bu bölümlere yaz.</p></div>
-<div><b>3</b><div class="t">ADIM 3 • GÖZDEN GEÇİRİRİM</div><h3>Yanlışlardan ve tekrardan öğren</h3><p>Bölüm 06–08: Yanlışlarını incele, konuları aralıklarla tekrar et, hafta sonunda kendini değerlendir.</p></div>
-</div>
-<p class="small" style="margin:10px 4px 0">💾 Yazdıkların bu cihazda otomatik saklanır. Bitirince <b>Kaydet</b> ile kontrol et; öğretmenine iletmek için sayfanın sonundaki <b>Cevaplarımı gönder</b> düğmesini kullan. Hepsini bir günde doldurman gerekmez.</p>
-<div class="progressbox"><div class="progressmeta"><span>Doldurduğun alan oranı</span><span id="progressText">0%</span></div><div class="progressline"><div class="progressfill" id="progressFill"></div></div><div class="streak" id="streak" aria-live="polite"></div><nav class="chips" aria-label="Bölümler"><a href="#s0">00 Başlangıç</a><a href="#s1">01 Önce kendini tanı</a><a href="#s2">02 Haftanı planla</a><a href="#s3">03 Çalışma bloğu</a><a href="#s4">04 Not al</a><a href="#s5">05 Soru çöz</a><a href="#s6">06 Yanlışlarını incele</a><a href="#s7">07 Aralıklı tekrar</a><a href="#s8">08 Haftanı değerlendir</a><a href="#s9">09 Günlük sayfa</a></nav></div>
-<form id="studyForm">
-<section class="section" id="s0"><div class="sectionhead"><div class="num">00</div><div><span class="tag">ADIM 1 • KENDİMİ TANIRIM</span><h2>Başlangıç</h2><p>Çalışma defterinin sahibi ve bu dönemki hedefin.</p></div></div><details class="guide" open><summary>Nasıl doldururum? <span class="meta"><span>⏱ 2 dk</span><span>📅 Bir kez</span></span></summary><div class="body"><ol><li>Adını ve soyadını yaz (bu alan zorunludur).</li><li>Deftere bugün başladığın tarihi seç.</li><li>Bu dönem için <b>tek</b> ve küçük bir hedef yaz. Büyük hedefler yerine uygulayabileceğin bir şey seç.</li></ol><div class="ex">Örnek hedef: “Her hafta 3 gün, 25 dakika dikkatimi dağıtmadan çalışacağım.”</div></div></details><div class="grid"><div class="field"><label for="studentName">Öğrencinin adı soyadı</label><input id="studentName" name="studentName" required></div><div class="field"><label for="startDate">Bu deftere başladığım tarih</label><input id="startDate" name="startDate" type="date"></div><div class="field full"><label for="termGoal">Bu dönemki küçük hedefim</label><textarea id="termGoal" name="termGoal" placeholder="Örn. Her hafta üç gün 25 dakika odaklanarak çalışmak."></textarea></div></div></section>
-<section class="section" id="s1"><div class="sectionhead"><div class="num">01</div><div><span class="tag">ADIM 1 • KENDİMİ TANIRIM</span><h2>Önce kendini tanı</h2><p>Nasıl çalıştığını fark et: en iyi saatin ve seni dağıtan şeyler.</p></div></div><details class="guide" open><summary>Nasıl doldururum? <span class="meta"><span>⏱ 5 dk</span><span>📅 Bir kez, sonra gerekirse güncelle</span></span></summary><div class="body"><ol><li>Kutucuklardan şu an yaptığın veya yapmak istediğin alışkanlıkları işaretle. Doğru ya da yanlış cevap yok.</li><li>Hangi saatlerde daha rahat odaklandığını yaz.</li><li>Seni en çok neyin dağıttığını yaz (telefon, gürültü, yorgunluk…). Bunu bilmek, çözümü bulmanın ilk adımıdır.</li><li>Bu hafta deneyeceğin başlangıç saatini seç. Her gün aynı saat olması şart değil; düzenli olması yardımcı olur.</li></ol><div class="ex">Örnek: “Okuldan gelip dinlendikten sonra, 17.00 civarı. Telefonum yanımdayken dağılıyorum.”</div></div></details><div class="note">Evde çalışmaya başlamadan önce kendime en uygun seçenekleri işaretliyorum.</div><div class="checkgrid"><label class="check"><input type="checkbox" name="routine" value="Ödevlerimi ve yaklaşan işleri kontrol ederim">Ödevlerimi ve yaklaşan işleri kontrol ederim</label><label class="check"><input type="checkbox" name="routine" value="En çok zorlandığım dersten küçük bir parça seçerim">En çok zorlandığım dersten küçük bir parça seçerim</label><label class="check"><input type="checkbox" name="routine" value="25-30 dakika odaklanıp 5-10 dakika ara veririm">25–30 dakika odaklanıp 5–10 dakika ara veririm</label><label class="check"><input type="checkbox" name="routine" value="Gerekirse daha kısa odak bloklarıyla başlarım">Gerekirse daha kısa odak bloklarıyla başlarım</label><label class="check"><input type="checkbox" name="routine" value="Arada ayağa kalkar, su içerim">Arada ayağa kalkar, su içerim</label><label class="check"><input type="checkbox" name="routine" value="Bitince yaptığımı kısaca gözden geçiririm">Bitince yaptığımı kısaca gözden geçiririm</label></div><div class="grid" style="margin-top:18px"><div class="field"><label for="bestFocus">Genellikle ne zaman daha rahat odaklanıyorum?</label><textarea id="bestFocus" name="bestFocus"></textarea></div><div class="field"><label for="distractions">Çalışırken dikkatimi en çok ne dağıtıyor?</label><textarea id="distractions" name="distractions"></textarea></div><div class="field full"><label for="startTime">Bu hafta deneyeceğim çalışma başlangıç saati</label><input id="startTime" name="startTime" type="time"></div></div></section>
-<section class="section" id="s2"><div class="sectionhead"><div class="num">02</div><div><span class="tag">ADIM 2 • PLANIMI KURARIM</span><h2>Haftanı planla</h2><p>İyi plan mükemmel değil, uygulayabildiğin plandır.</p></div></div><details class="guide" open><summary>Nasıl doldururum? <span class="meta"><span>⏱ 10–15 dk</span><span>📅 Her hafta başında</span></span></summary><div class="body"><ol><li>Önce üç kutuyu doldur: bu hafta <b>bitirmen gereken</b> iş, <b>geliştirmen gereken</b> konu, <b>korumak istediğin</b> ders.</li><li>Tabloda yalnızca çalışacağın günleri doldur; boş gün bırakabilirsin. Her güne her dersi koyma.</li><li>“Esnek zaman” kutusuna aksayan işi taşıyabileceğin günü yaz.</li><li>“Dinlenme” kutusuna sevdiğin bir etkinliği yaz. Dinlenme planın bir parçasıdır, silinmez.</li></ol><div class="ex">Örnek satır: Salı • 17.00, 30 dk • Fen ödevi • Matematik: kesirde 5 örnek • Dünkü notu tekrar</div></div></details><div class="grid three"><div class="field"><label for="priority">1. Önceliğim</label><textarea id="priority" name="priority" placeholder="Bu hafta tamamlayacağım ödev / proje"></textarea></div><div class="field"><label for="improve">2. Geliştireceğim</label><textarea id="improve" name="improve" placeholder="Tekrar etmem gereken konu"></textarea></div><div class="field"><label for="keep">3. Koruyacağım</label><textarea id="keep" name="keep" placeholder="Kısa tekrar yapacağım ders"></textarea></div></div><h3>Haftalık taslak</h3><p class="scrollhint">↔ Tabloyu yana kaydırarak tüm sütunları görebilirsin.</p><div class="tablewrap"><table class="table"><thead><tr><th>Gün</th><th>Saat / süre</th><th>Ödev / iş</th><th>Odak dersi + küçük hedef</th><th>Tekrar / soru</th></tr></thead><tbody id="weeklyRows"></tbody></table></div><div class="grid"><div class="field"><label for="flexibleTime">Esnek zaman</label><textarea id="flexibleTime" name="flexibleTime" placeholder="Aksayan bir işi hangi güne taşıyabilirim?"></textarea></div><div class="field"><label for="restTime">Dinlenme</label><textarea id="restTime" name="restTime" placeholder="Bu hafta boş zaman / sevdiğim etkinlik"></textarea></div></div></section>
-<section class="section" id="s3"><div class="sectionhead"><div class="num">03</div><div><span class="tag">ADIM 2 • PLANIMI KURARIM</span><h2>Bir çalışma bloğu</h2><p>Bir ödevi veya konuyu küçük parçalara bölerek çalış.</p></div></div><details class="guide" open><summary>Nasıl doldururum? <span class="meta"><span>⏱ 25–30 dk</span><span>📅 Her çalışma başında</span></span></summary><div class="body"><ol><li>Aşağıdaki 5 kartı sırayla oku; çalışırken bunları uygulayacaksın.</li><li>Çalışmaya başlamadan <b>ders/konuyu</b> ve <b>süreni</b> yaz.</li><li>Blok bitince neyi yapabildiğini gösterecek bir kanıt yaz (ör. çözdüğün soru sayısı).</li><li>Bir sonraki adımını yaz ve 5–10 dakika mola ver.</li></ol><div class="ex">Örnek kanıt: “Kitaba bakmadan kesirlerde toplama kuralını anlattım ve 4 soruyu doğru çözdüm.”</div></div></details><div class="timer"><div><span class="tag">ZAMANLAYICI</span><div class="tmode" id="tMode">Odak süresi</div><div class="tring" id="tRing"><div class="ttime" id="tTime">25:00</div></div></div><div class="tctl"><button class="d" type="button" data-m="15" aria-pressed="false">15 dk</button><button class="d" type="button" data-m="25" aria-pressed="true">25 dk</button><button class="d" type="button" data-m="30" aria-pressed="false">30 dk</button><button class="btn" id="tGo" type="button">Başlat</button><button class="btn secondary" id="tReset" type="button">Sıfırla</button></div><p id="tMsg">Süreyi seç, Başlat’a bas. Süre bitince 5 dakikalık mola önerilir.</p></div><div class="cards"><div class="card"><h3>1 • Hedefi küçült</h3><p>“Matematik çalışacağım” yerine “Kesirlerde 5 örnek çözeceğim” de.</p></div><div class="card"><h3>2 • Ön bilgini hatırla</h3><p>Kitaba bakmadan bildiklerini bir dakikada yaz veya anlat.</p></div><div class="card"><h3>3 • Öğren ve dene</h3><p>Kısa oku, örneği incele, sonra kitabı kapatıp uygula.</p></div><div class="card"><h3>4 • Kendini yokla</h3><p>Takıldığın yeri bul; çözümü hemen kopyalama.</p></div><div class="card"><h3>5 • Kapat ve özetle</h3><p>“Bugün öğrendiğim…” cümlesini tamamla.</p></div></div><div class="grid" style="margin-top:18px"><div class="field"><label for="blockSubject">Ders / konu</label><input id="blockSubject" name="blockSubject"></div><div class="field"><label for="blockDuration">Çalışma sürem</label><input id="blockDuration" name="blockDuration" placeholder="Örn. 25 dakika"></div><div class="field full"><label for="blockEvidence">Bu blok bitince yapabildiğimi gösterecek kanıt</label><textarea id="blockEvidence" name="blockEvidence"></textarea></div><div class="field full"><label for="nextStep">Tamamladım. Bir sonraki adımım</label><textarea id="nextStep" name="nextStep"></textarea></div></div></section>
-<section class="section" id="s4"><div class="sectionhead"><div class="num">04</div><div><span class="tag">ADIM 2 • PLANIMI KURARIM</span><h2>Not al ve hatırla</h2><p>Kısa, anlaşılır ve kendini sınamana yardımcı notlar tut.</p></div></div><details class="guide" open><summary>Nasıl doldururum? <span class="meta"><span>⏱ 10 dk</span><span>📅 Yeni bir konu öğrendiğinde</span></span></summary><div class="body"><ol><li>Konunun adını ve tarihi yaz.</li><li>Öğrenirken aklına gelen soruları ve anahtar kelimeleri sol kutuya yaz. Emin olmadığın yere “?” koy.</li><li>Konuyu <b>kendi sözlerinle</b> özetle; istersen şema veya örnek ekle. Kitaptan aynen kopyalama.</li><li>Kitabı kapat ve hatırladığın 3 şeyi yaz. Ertesi gün tekrar dene.</li></ol><div class="ex">Örnek: “Fotosentez: bitki ışıkla besin üretir. ? Klorofil tam olarak ne yapıyor — öğretmene sor.”</div></div></details><div class="grid"><div class="field"><label for="notesSubject">Ders / konu</label><input id="notesSubject" name="notesSubject"></div><div class="field"><label for="notesDate">Tarih</label><input id="notesDate" name="notesDate" type="date"></div><div class="field"><label for="keywords">Sorularım / anahtar kelimeler</label><textarea id="keywords" name="keywords"></textarea></div><div class="field"><label for="summary">Kendi sözlerimle özet / şema / örnek</label><textarea id="summary" name="summary"></textarea></div><div class="field full"><label for="remembered">Kitabı kapatınca hatırladığım 3 şey</label><textarea id="remembered" name="remembered"></textarea></div></div></section>
-<section class="section" id="s5"><div class="sectionhead"><div class="num">05</div><div><span class="tag">ADIM 2 • PLANIMI KURARIM</span><h2>Soruyu doğru çöz</h2><p>Önce doğru anla, sonra hızlan.</p></div></div><details class="guide" open><summary>Nasıl doldururum? <span class="meta"><span>⏱ 10 dk / soru</span><span>📅 Zorlandığın bir soruda</span></span></summary><div class="body"><ol><li>Bir soru seç; numarasını ve dersini yaz.</li><li><b>Oku:</b> soruda senden ne istendiğini kendi cümlenle yaz. “Değildir”, “en az” gibi sözcüklerin altını çiz.</li><li><b>Ayıkla:</b> verilenleri ve çizimini yaz.</li><li><b>Planla ve çöz:</b> işlemleri sırayla yaz, sonunda sonucun soruya uyup uymadığını kontrol et.</li><li>Takılırsan çözüme bakmadan önce soruyu bir kez daha anlat; sonra başka soruya geçip geri dön.</li></ol><div class="ex">Örnek: “3/4’ü 18 olan sayı” → bir parça 18÷3=6 → tamamı 6×4=24 → kontrol: 24’ün 3/4’ü 18 ✓</div></div></details><div class="grid"><div class="field"><label for="questionNo">Soru numarası / ders</label><input id="questionNo" name="questionNo"></div><div class="field"><label for="asked">Soruda benden ne isteniyor?</label><textarea id="asked" name="asked"></textarea></div><div class="field"><label for="given">Verilenler / çizimim</label><textarea id="given" name="given"></textarea></div><div class="field full"><label for="solution">Çözümüm ve kontrolüm</label><textarea id="solution" name="solution" style="min-height:150px"></textarea></div></div></section>
-<section class="section" id="s6"><div class="sectionhead"><div class="num">06</div><div><span class="tag">ADIM 3 • GÖZDEN GEÇİRİRİM</span><h2>Yanlış dedektifi</h2><p>Yanlış başarısızlık değil; sonraki adımını gösteren ipucudur.</p></div></div><details class="guide" open><summary>Nasıl doldururum? <span class="meta"><span>⏱ 5–10 dk</span><span>📅 Test veya ödevden sonra</span></span></summary><div class="body"><ol><li>Yanlış yaptığın bir soruyu bul. Cevabı silip geçme.</li><li>Yanlışın nedenine en uygun türü işaretle (bilgi eksiği, dikkat, işlem, süre).</li><li>Tabloya dersi, hata türünü ve nedenini yaz. Soruyu bakmadan yeniden çöz ve “Yeniden çözdüm” kutusunu işaretle.</li><li>En sık tekrar eden hatayı alttaki kutuya yaz; bu, gelecek haftanın küçük hedefi olabilir.</li></ol><div class="ex">Örnek: “Fen / 7. soru • Dikkat • “değildir” sözcüğünü atladım → bir dahaki sefere altını çizeceğim.”</div></div></details><div class="checkgrid"><label class="check"><input type="checkbox" name="errorType" value="Bilgi eksikliği">Bilgi eksikliği</label><label class="check"><input type="checkbox" name="errorType" value="Dikkat / okuma">Dikkat / okuma</label><label class="check"><input type="checkbox" name="errorType" value="İşlem / yöntem">İşlem / yöntem</label><label class="check"><input type="checkbox" name="errorType" value="Süre / takılma">Süre / takılma</label></div><h3>Bu haftaki hata kayıtlarım</h3><p class="scrollhint">↔ Tabloyu yana kaydırarak tüm sütunları görebilirsin.</p><div class="tablewrap"><table class="table"><thead><tr><th>Ders / soru</th><th>Hata türü</th><th>Neden olmuş?</th><th>Yeniden çözdüm</th></tr></thead><tbody id="errorRows"></tbody></table></div><div class="field"><label for="commonError">Bu hafta tekrar çalışacağım ortak hata / konu</label><textarea id="commonError" name="commonError"></textarea></div></section>
-<section class="section" id="s7"><div class="sectionhead"><div class="num">07</div><div><span class="tag">ADIM 3 • GÖZDEN GEÇİRİRİM</span><h2>Aralıklı tekrar</h2><p>Kısa tekrarlar, uzun tek tekrardan daha kalıcıdır.</p></div></div><details class="guide" open><summary>Nasıl doldururum? <span class="meta"><span>⏱ 3 dk / tekrar</span><span>📅 Konuyu çalıştıktan 1 gün, 3 gün, 1 hafta, 2 hafta sonra</span></span></summary><div class="body"><ol><li>Çalıştığın konunun adını “Konu” sütununa yaz.</li><li>Tekrar edeceğin günlerde önce defteri kapatıp hatırlamaya çalış, sonra notundan kontrol et.</li><li>İlgili sütuna tarihi ve kısa sonucu yaz: “rahat hatırladım”, “ipucuna ihtiyaç duydum” veya “yeniden çalışacağım”.</li><li>Çabuk unutuyorsan tekrarı öne çek; rahat hatırlıyorsan sonraya at.</li></ol><div class="ex">Örnek: Hücre • 1 gün: 12 Kas, rahat hatırladım • 3 gün: 15 Kas, ipucu gerekti</div></div></details><p class="scrollhint">↔ Tabloyu yana kaydırarak tüm sütunları görebilirsin.</p><div class="tablewrap"><table class="table"><thead><tr><th>Konu</th><th>1 gün</th><th>3 gün</th><th>1 hafta</th><th>2 hafta</th><th>Sonuç</th></tr></thead><tbody id="reviewRows"></tbody></table></div><div class="field"><label for="reviewInsight">Tekrarlarımın sonunda daha iyi bildiğimi fark ettiğim şey</label><textarea id="reviewInsight" name="reviewInsight"></textarea></div></section>
-<section class="section" id="s8"><div class="sectionhead"><div class="num">08</div><div><span class="tag">ADIM 3 • GÖZDEN GEÇİRİRİM</span><h2>Haftanı değerlendir</h2><p>Suçlama yok: merak, çözüm ve yeni bir küçük adım var.</p></div></div><details class="guide" open><summary>Nasıl doldururum? <span class="meta"><span>⏱ 10–15 dk</span><span>📅 Haftada bir kez</span></span></summary><div class="body"><ol><li>Dört kutuyu sırayla doldur: iyi giden, bir dahaki sefere farklı yapacağın, kendine teşekkür ettiğin çaba ve yeni haftanın <b>tek</b> hedefi.</li><li>Kendini suçlamadan, merakla yaz: “Ne işe yaradı, neyi değiştirebilirim?”</li><li>Alttaki 4 haftalık tabloda her hafta için kısa bir not düş. Aileninle ya da öğretmeninle konuşurken bu notlardan yararlanabilirsin.</li></ol><div class="ex">Örnek hedef: “Gelecek hafta yalnızca ilk 3 gün plana uyacağım.”</div></div></details><div class="grid"><div class="field"><label for="wentWell">Bu hafta iyi giden: Neyi yaptım? Bana ne yardımcı oldu?</label><textarea id="wentWell" name="wentWell"></textarea></div><div class="field"><label for="nextTime">Bir dahaki sefere: Neyi daha kolay / farklı yapabilirim?</label><textarea id="nextTime" name="nextTime"></textarea></div><div class="field"><label for="thanks">Kendime teşekkür: Bu hafta gösterdiğim çaba</label><textarea id="thanks" name="thanks"></textarea></div><div class="field"><label for="newGoal">Yeni haftanın tek hedefi</label><textarea id="newGoal" name="newGoal"></textarea></div></div><h3>4 haftalık ev denemesi</h3><p class="scrollhint">↔ Tabloyu yana kaydırarak tüm sütunları görebilirsin.</p><div class="tablewrap"><table class="table"><thead><tr><th>Hafta</th><th>Öğrenci yapar</th><th>Birlikte konuşulacak soru</th><th>Kendi notum</th></tr></thead><tbody id="fourWeekRows"></tbody></table></div></section>
-<section class="section" id="s9"><div class="sectionhead"><div class="num">09</div><div><span class="tag">ADIM 2 • PLANIMI KURARIM</span><h2>Kişisel çalışma sayfam</h2><p>Her gün kısa bir plan, kısa bir kapanış.</p></div></div><details class="guide" open><summary>Nasıl doldururum? <span class="meta"><span>⏱ 10 dk</span><span>📅 Her gün (sayfayı yeniden kullan)</span></span></summary><div class="body"><ol><li>Tarihi seç, bugünün <b>en önemli işini</b> ve başlama saatini yaz.</li><li>En çok 3 çalışma bloğu planla; her biri için küçük bir hedef yaz, bitince ne yaptığını not et.</li><li>Çalışma sonunda kitaba bakmadan anlatabildiğin şeyi, takıldığın noktayı ve yardım isteyeceğin konuyu yaz.</li><li>Bugün öğrendiğin bir şeyi, yarın ilk bakacağın konuyu ve çaba puanını (1–5) seç.</li></ol><div class="ex">Her gün yeni bir sayfa gibi kullanabilirsin; eski cevapları indirmek için en alttaki “Cevaplarımı indir” düğmesini kullan.</div></div></details><div class="grid three"><div class="field"><label for="todayDate">Tarih</label><input id="todayDate" name="todayDate" type="date"></div><div class="field"><label for="todayTask">Bugünkü en önemli iş</label><input id="todayTask" name="todayTask"></div><div class="field"><label for="todayStart">Başlama saati</label><input id="todayStart" name="todayStart" type="time"></div></div><h3>Çalışma bloklarım</h3><p class="scrollhint">↔ Tabloyu yana kaydırarak tüm sütunları görebilirsin.</p><div class="tablewrap"><table class="table"><thead><tr><th>Blok</th><th>Ders / konu</th><th>Küçük hedef</th><th>Yaptım / not</th><th>Tekrar günü</th></tr></thead><tbody id="dailyRows"></tbody></table></div><div class="grid"><div class="field"><label for="selfTest">Bugün kendimi yokluyorum</label><textarea id="selfTest" name="selfTest" placeholder="Kitaba bakmadan anlatabildiğim / çözebildiğim şey"></textarea></div><div class="field"><label for="stuck">Takıldığım nokta</label><textarea id="stuck" name="stuck" placeholder="Yardım isteyeceğim soru / konu"></textarea></div><div class="field"><label for="learnedToday">Bugün öğrendiğim bir şey</label><textarea id="learnedToday" name="learnedToday"></textarea></div><div class="field"><label for="tomorrowTopic">Yarın ilk bakacağım konu</label><textarea id="tomorrowTopic" name="tomorrowTopic"></textarea></div></div><div class="grid"><div class="field"><label for="effort">Bugünkü çabam (1–5)</label><input id="effort" name="effort" type="range" min="1" max="5" value="3" oninput="effortOut.value=this.value"><output id="effortOut">3</output></div><div class="field"><label for="feeling">Çalışmamı nasıl hissediyorum?</label><select id="feeling" name="feeling"><option value="Rahatım">Rahatım</option><option value="Biraz zorlandım">Biraz zorlandım</option><option value="Destek isteyeceğim">Destek isteyeceğim</option></select></div></div><h3 class="sub">Haftalık çaba grafiğim</h3><p class="small">“Bugünkü çabam” çubuğunu oynattıkça son 7 günün burada görünür. Önemli olan yüksek puan değil, düzenli çaba.</p><div id="effortChart"></div></section>
-<div class="footer-actions"><button class="btn light" type="button" onclick="saveForm()">Kaydet</button><button class="btn light" type="button" onclick="downloadJSON()">Cevaplarımı indir</button><button class="btn green" type="submit">Cevaplarımı gönder</button><button class="btn" type="button" onclick="clearForm()">Formu temizle</button></div><p class="small" style="text-align:center">Cevaplarını göndermeden önce adını yazdığından emin ol. Cevapların bu cihazda da saklanır; internet yoksa “Cevaplarımı indir” ile dosyayı öğretmenine iletebilirsin.</p>
-</form></div><div class="printfoot">TEMA KOLEJİ • Hazırlayan: Yiğit Buğra Kale - Fen Bilimleri Öğretmeni/T-Coach</div><div class="toast" id="toast"></div>
-<script>
-/* Logo: eski dosyadaki "data:image/jpeg;base64,..." metnini tırnakların içine yapıştırın. Boş bırakılırsa logo gösterilmez. */
-const LOGO_SRC='';
-(function(){if(!LOGO_SRC)return;const l=document.getElementById('heroLogo');l.src=LOGO_SRC;l.style.display='';document.getElementById('favicon').href=LOGO_SRC})();
-
-const STORAGE_KEY='sinif7-kisisel-calisma-duzeni-v1';
-// Google Apps Script web uygulamanızın /exec adresi
-const GOOGLE_SCRIPT_URL='https://script.google.com/macros/s/AKfycbycyjVs3pTnq5VnT16NTypiytYt6QLDlMv5HlUnhoiBAwH9UKZ7tnYnMI6LyUG0FfMh0A/exec';
-const days=['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Pazar'];
-function cellInput(name,placeholder='',type='text'){return `<input name="${name}" placeholder="${placeholder}" type="${type}">`}
-function buildRows(){document.getElementById('weeklyRows').innerHTML=days.map((d,i)=>`<tr><td><strong>${d}</strong></td><td>${cellInput('week_time_'+i,'Saat / süre')}</td><td>${cellInput('week_task_'+i,'Ödev / iş')}</td><td>${cellInput('week_focus_'+i,'Odak + hedef')}</td><td>${cellInput('week_review_'+i,'Tekrar / soru')}</td></tr>`).join('');document.getElementById('errorRows').innerHTML=Array.from({length:4},(_,i)=>`<tr><td>${cellInput('error_subject_'+i)}</td><td>${cellInput('error_type_'+i)}</td><td>${cellInput('error_reason_'+i)}</td><td style="text-align:center"><input type="checkbox" name="error_redone_${i}"></td></tr>`).join('');document.getElementById('reviewRows').innerHTML=Array.from({length:5},(_,i)=>`<tr><td>${cellInput('review_topic_'+i)}</td><td>${cellInput('review_1d_'+i,'Tarih / sonuç')}</td><td>${cellInput('review_3d_'+i,'Tarih / sonuç')}</td><td>${cellInput('review_1w_'+i,'Tarih / sonuç')}</td><td>${cellInput('review_2w_'+i,'Tarih / sonuç')}</td><td>${cellInput('review_result_'+i)}</td></tr>`).join('');const fw=[['1','Kendi haftalık planımı kurarım','Bu plan benim için gerçekçi mi?'],['2','Uygulanan ve aksayan adımları fark ederim','Neyi koruyalım, neyi sadeleştirelim?'],['3','Bir yanlışımı türüne göre incelerim','Gelecek hafta hangi küçük çalışma bana yardımcı olur?'],['4','Dört haftayı gözden geçiririm','İşe yarayan düzen neydi; desteğe ihtiyacım var mı?']];document.getElementById('fourWeekRows').innerHTML=fw.map((r,i)=>`<tr><td><strong>${r[0]}</strong></td><td>${r[1]}</td><td>${r[2]}</td><td>${cellInput('week_note_'+i)}</td></tr>`).join('');document.getElementById('dailyRows').innerHTML=[1,2,3].map(i=>`<tr><td><strong>${i}</strong></td><td>${cellInput('daily_subject_'+i)}</td><td>${cellInput('daily_goal_'+i)}</td><td>${cellInput('daily_done_'+i)}</td><td>${cellInput('daily_review_'+i,'Tarih')}</td></tr>`).join('')}
-function formData(){const f=new FormData(document.getElementById('studyForm')),o={submittedAt:new Date().toISOString()};for(const [k,v] of f.entries()){if(k.endsWith('[]')){o[k]=(o[k]||[]).concat(v)}else if(o[k]!==undefined){o[k]=Array.isArray(o[k])?o[k].concat(v):[o[k],v]}else{o[k]=v}};return o}
-function restore(){let raw=null;try{raw=localStorage.getItem(STORAGE_KEY)}catch(e){}if(!raw)return;let o;try{o=JSON.parse(raw)}catch(e){return}for(const [k,v] of Object.entries(o)){const els=document.querySelectorAll(`[name="${CSS.escape(k)}"]`);if(!els.length)continue;if(els[0].type==='checkbox'){els.forEach(e=>e.checked=Array.isArray(v)?v.includes(e.value):v===e.value||v==='on')}else if(els.length===1)els[0].value=v;else els.forEach((e,i)=>e.value=Array.isArray(v)?v[i]||'':v)};if(o.effort){effortOut.value=o.effort}updateProgress()}
-function saveForm(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(formData()))}catch(e){}showToast('Cevapların bu cihazda kaydedildi.');document.getElementById('saveStatus').textContent='Son kayıt: '+new Date().toLocaleTimeString('tr-TR',{hour:'2-digit',minute:'2-digit'})}
-function clearForm(){if(confirm('Bu cihazdaki kayıtlı cevaplar silinsin mi?')){try{localStorage.removeItem(STORAGE_KEY)}catch(e){}document.getElementById('studyForm').reset();effortOut.value=3;updateProgress();showToast('Form temizlendi.')}}
-function downloadJSON(){const blob=new Blob([JSON.stringify(formData(),null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='7-sinif-calisma-duzeni-cevaplari.json';a.click();URL.revokeObjectURL(a.href)}
-function showToast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');clearTimeout(window.toastT);window.toastT=setTimeout(()=>x.classList.remove('show'),Math.max(2400,t.length*70))}
-function updateProgress(){const els=[...document.querySelectorAll('#studyForm input:not([type=checkbox]),#studyForm textarea,#studyForm select')];const done=els.filter(e=>e.value.trim()).length;const pct=Math.round(done/els.length*100);document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressText').textContent=pct+'%'}
-document.addEventListener('input',()=>{updateProgress();clearTimeout(window.saveTimer);window.saveTimer=setTimeout(()=>{try{localStorage.setItem(STORAGE_KEY,JSON.stringify(formData()))}catch(e){}},700)});
-
-function fetchWithTimeout(url,opts,ms){
-  const c=new AbortController(),t=setTimeout(()=>c.abort(),ms);
-  return fetch(url,Object.assign({},opts,{signal:c.signal,redirect:'follow'})).finally(()=>clearTimeout(t));
-}
-async function sendToGoogle(payload){
-  let detail='';
-  try{
-    const res=await fetchWithTimeout(GOOGLE_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)},25000);
-    const out=await res.json().catch(()=>null);
-    if(out&&out.success)return{ok:true};
-    if(out&&out.success===false)return{ok:false,msg:'Kayıt yapılamadı: '+(out.message||'bilinmeyen hata')};
-    detail='cevap okunamadı, kod '+res.status;
-  }catch(err){detail='tarayıcı cevabı okuyamadı';console.warn('POST cevabı okunamadı:',err)}
-  // Cevap okunamadıysa: kayıt gerçekten ulaştı mı?
-  try{
-    const r=await fetchWithTimeout(GOOGLE_SCRIPT_URL+'?ack='+encodeURIComponent(payload.submissionId),{},15000);
-    const j=await r.json();
-    if(j&&j.saved===true)return{ok:true};
-    if(j&&j.saved===false)return{ok:false,msg:'Kayıt e-tabloya ulaşmadı ('+detail+'). Apps Script yayın ayarını kontrol et.'};
-    return{ok:false,msg:'Apps Script güncel değil: yeni Code.gs kodunu “Yeni sürüm” ile yayınla.'};
-  }catch(err2){
-    console.warn('Doğrulama sorgusu başarısız:',err2);
-    return{ok:null,msg:'Gönderildi ama doğrulanamadı ('+detail+'). Yayın erişimi “Herkes” olmayabilir; e-tabloya bak.'};
-  }
-}
-document.getElementById('studyForm').addEventListener('submit', async e => {
-  e.preventDefault();
-  const form = document.getElementById('studyForm');
-  if (!form.reportValidity()) return;
-
-  const btn = e.submitter || form.querySelector('button[type="submit"]');
-  if (btn.disabled) return;
-  const originalText = btn.textContent;
-  const payload = formData();
-  payload.submissionId = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
-
-  // Önce cevapları bu cihazda sakla.
-  try{localStorage.setItem(STORAGE_KEY, JSON.stringify(payload))}catch(err){}
-  document.getElementById('saveStatus').textContent =
-    'Son kayıt: ' + new Date().toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'});
-
-  if (!GOOGLE_SCRIPT_URL || !/\/exec(?:$|\?)/.test(GOOGLE_SCRIPT_URL)) {
-    showToast('Google bağlantısı ayarlanmamış. Cevapların bu cihazda saklandı.');
-    return;
+function getSchema_() {
+  if (SCHEMA_CACHE_) return SCHEMA_CACHE_;
+  var out = [];
+  function add(key, sec, label) {
+    out.push({ key: key, header: sec + ' – ' + label });
   }
 
-  btn.disabled = true;
-  btn.textContent = 'Gönderiliyor…';
+  var S0 = '00 Başlangıç';
+  var S1 = '01 Önce kendini tanı';
+  var S2 = '02 Haftanı planla';
+  var S3 = '03 Bir çalışma bloğu';
+  var S4 = '04 Not al ve hatırla';
+  var S5 = '05 Soruyu doğru çöz';
+  var S6 = '06 Yanlış dedektifi';
+  var S7 = '07 Aralıklı tekrar';
+  var S8 = '08 Haftanı değerlendir';
+  var S9 = '09 Kişisel çalışma sayfam';
+  var days = ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'];
+  var i, r, w, b;
 
+  add('studentName', S0, 'Öğrencinin adı soyadı');
+  add('startDate', S0, 'Bu deftere başladığım tarih');
+  add('termGoal', S0, 'Bu dönemki küçük hedefim');
+
+  add('routine', S1, 'Çalışma alışkanlıklarım (işaretlenenler)');
+  add('bestFocus', S1, 'Genellikle ne zaman daha rahat odaklanıyorum');
+  add('distractions', S1, 'Çalışırken dikkatimi en çok ne dağıtıyor');
+  add('startTime', S1, 'Bu hafta deneyeceğim çalışma başlangıç saati');
+
+  add('priority', S2, '1. Önceliğim');
+  add('improve', S2, '2. Geliştireceğim');
+  add('keep', S2, '3. Koruyacağım');
+  for (i = 0; i < days.length; i++) {
+    add('week_time_' + i, S2, days[i] + ' – Saat / süre');
+    add('week_task_' + i, S2, days[i] + ' – Ödev / iş');
+    add('week_focus_' + i, S2, days[i] + ' – Odak dersi + küçük hedef');
+    add('week_review_' + i, S2, days[i] + ' – Tekrar / soru');
+  }
+  add('flexibleTime', S2, 'Esnek zaman');
+  add('restTime', S2, 'Dinlenme');
+
+  add('blockSubject', S3, 'Ders / konu');
+  add('blockDuration', S3, 'Çalışma sürem');
+  add('blockEvidence', S3, 'Bu blok bitince yapabildiğimi gösterecek kanıt');
+  add('nextStep', S3, 'Tamamladım. Bir sonraki adımım');
+
+  add('notesSubject', S4, 'Ders / konu');
+  add('notesDate', S4, 'Tarih');
+  add('keywords', S4, 'Sorularım / anahtar kelimeler');
+  add('summary', S4, 'Kendi sözlerimle özet / şema / örnek');
+  add('remembered', S4, 'Kitabı kapatınca hatırladığım 3 şey');
+
+  add('questionNo', S5, 'Soru numarası / ders');
+  add('asked', S5, 'Soruda benden ne isteniyor');
+  add('given', S5, 'Verilenler / çizimim');
+  add('solution', S5, 'Çözümüm ve kontrolüm');
+
+  add('errorType', S6, 'Yanlışın nedeni (işaretlenen türler)');
+  for (i = 0; i < 4; i++) {
+    add('error_subject_' + i, S6, 'Hata kaydı ' + (i + 1) + ' – Ders / soru');
+    add('error_type_' + i, S6, 'Hata kaydı ' + (i + 1) + ' – Hata türü');
+    add('error_reason_' + i, S6, 'Hata kaydı ' + (i + 1) + ' – Neden olmuş');
+    add('error_redone_' + i, S6, 'Hata kaydı ' + (i + 1) + ' – Yeniden çözdüm');
+  }
+  add('commonError', S6, 'Bu hafta tekrar çalışacağım ortak hata / konu');
+
+  for (r = 0; r < 5; r++) {
+    var p = 'Tekrar ' + (r + 1) + ' – ';
+    add('review_topic_' + r, S7, p + 'Konu');
+    add('review_1d_' + r, S7, p + '1 gün');
+    add('review_3d_' + r, S7, p + '3 gün');
+    add('review_1w_' + r, S7, p + '1 hafta');
+    add('review_2w_' + r, S7, p + '2 hafta');
+    add('review_result_' + r, S7, p + 'Sonuç');
+  }
+  add('reviewInsight', S7, 'Tekrarlarımın sonunda daha iyi bildiğimi fark ettiğim şey');
+
+  add('wentWell', S8, 'Bu hafta iyi giden');
+  add('nextTime', S8, 'Bir dahaki sefere farklı yapacağım');
+  add('thanks', S8, 'Kendime teşekkür / Bu hafta gösterdiğim çaba');
+  add('newGoal', S8, 'Yeni haftanın tek hedefi');
+  for (w = 0; w < 4; w++) {
+    add('week_note_' + w, S8, '4 haftalık ev denemesi – Hafta ' + (w + 1) + ' – Kendi notum');
+  }
+
+  add('todayDate', S9, 'Tarih');
+  add('todayTask', S9, 'Bugünkü en önemli iş');
+  add('todayStart', S9, 'Başlama saati');
+  for (b = 1; b <= 3; b++) {
+    add('daily_subject_' + b, S9, 'Çalışma bloğu ' + b + ' – Ders / konu');
+    add('daily_goal_' + b, S9, 'Çalışma bloğu ' + b + ' – Küçük hedef');
+    add('daily_done_' + b, S9, 'Çalışma bloğu ' + b + ' – Yaptım / not');
+    add('daily_review_' + b, S9, 'Çalışma bloğu ' + b + ' – Tekrar günü');
+  }
+  add('selfTest', S9, 'Bugün kendimi yokluyorum');
+  add('stuck', S9, 'Takıldığım nokta');
+  add('learnedToday', S9, 'Bugün öğrendiğim bir şey');
+  add('tomorrowTopic', S9, 'Yarın ilk bakacağım konu');
+  add('effort', S9, 'Bugünkü çabam (1–5)');
+  add('feeling', S9, 'Çalışmamı nasıl hissediyorum');
+
+  out.push({ key: 'submissionId', header: 'Gönderim No' });
+  out.push({ key: 'submittedAt', header: 'Cihaz Saati (ISO)' });
+
+  SCHEMA_CACHE_ = out;
+  return out;
+}
+
+function keyToHeaderMap_() {
+  var m = {};
+  var s = getSchema_();
+  for (var i = 0; i < s.length; i++) m[s[i].key] = s[i].header;
+  return m;
+}
+
+function headerFor_(key) {
+  var m = keyToHeaderMap_();
+  return m[key] || String(key).trim().slice(0, 150);
+}
+
+function doGet(e) {
   try {
-    const r = await sendToGoogle(payload);
-    if (r.ok === true) {
-      showToast('✓ Cevapların e-tabloya kaydedildi. Teşekkürler!');
-      document.getElementById('saveStatus').textContent = 'Gönderildi: ' + new Date().toLocaleTimeString('tr-TR', {hour: '2-digit', minute: '2-digit'});
-    } else showToast(r.msg + ' Cevapların bu cihazda saklandı.');
-  } catch (err) {
-    console.error('Form gönderim hatası:', err);
-    showToast('Gönderim sırasında beklenmeyen hata oluştu. Cevapların bu cihazda saklandı.');
-  } finally {
-    btn.disabled = false;
-    btn.textContent = originalText;
+    if (e && e.parameter && e.parameter.ack) {
+      var result = {
+        success: true,
+        saved: !!CacheService.getScriptCache().get('s' + e.parameter.ack)
+      };
+      var cb = e.parameter.callback;
+      if (cb && /^[A-Za-z0-9_]+$/.test(cb)) {
+        return ContentService.createTextOutput(cb + '(' + JSON.stringify(result) + ');')
+          .setMimeType(ContentService.MimeType.JAVASCRIPT);
+      }
+      return jsonResponse_(result);
+    }
+    var sheet = getTargetSheet_();
+    return jsonResponse_({
+      success: true,
+      message: 'Öğrenci cevap kayıt sistemi çalışıyor.',
+      spreadsheet: sheet.getParent().getName(),
+      sheet: sheet.getName(),
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    return jsonResponse_({ success: false, message: error.message });
   }
-});
-buildRows();restore();updateProgress();
-</script>
+}
 
-<script>
-(()=>{
-const $=q=>document.querySelector(q),$$=q=>[...document.querySelectorAll(q)];
-const UI='sinif7-ui-v1',HK='sinif7-gunluk-v1',TITLE=document.title;
-const ld=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
-const sv=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
-const ui=Object.assign({theme:'light',size:0,step:0},ld(UI,{}));
-const SUBJ=['Fen Bilimleri','Matematik','Türkçe','Sosyal Bilgiler','İngilizce','Din Kültürü','Diğer'],ETYPE=['Bilgi eksikliği','Dikkat / okuma','İşlem / yöntem','Süre / takılma'];
-function toSel(el,o,ph){if(!el)return;const s=document.createElement('select'),v=el.value;s.id=el.id;s.name=el.name;s.innerHTML='<option value="">'+ph+'</option>'+o.map(x=>'<option>'+x+'</option>').join('');if(v&&!o.includes(v))s.insertAdjacentHTML('beforeend','<option>'+v+'</option>');s.value=v;el.replaceWith(s)}
-toSel($('#blockSubject'),SUBJ,'Ders seç…');toSel($('#notesSubject'),SUBJ,'Ders seç…');
-$$('[name^=daily_subject_]').forEach(e=>toSel(e,SUBJ,'Ders seç…'));$$('[name^=error_type_]').forEach(e=>toSel(e,ETYPE,'Tür seç…'));
-$$('.table').forEach(t=>{const h=[...t.querySelectorAll('th')].map(x=>x.textContent);t.querySelectorAll('tbody tr').forEach(r=>[...r.children].forEach((c,i)=>c.dataset.label=h[i]||''))});
-/* adım adım */
-const secs=$$('#studyForm .section'),chips=$$('.chips a');
-secs.forEach(s=>s.classList.add('step'));chips.forEach(a=>a.insertAdjacentHTML('beforeend','<i class="ck"></i>'));
-$('.footer-actions').insertAdjacentHTML('beforebegin','<div class="wiznav"><button class="btn light" id="prevBtn" type="button">← Önceki</button><span id="stepInfo"></span><button class="btn green" id="nextBtn" type="button">Sonraki →</button></div>');
-function go(n,sc=true){n=Math.max(0,Math.min(9,n));ui.step=n;sv(UI,ui);secs.forEach((s,i)=>s.classList.toggle('on',i===n));chips.forEach((a,i)=>{a.classList.toggle('on',i===n);i===n?a.setAttribute('aria-current','step'):a.removeAttribute('aria-current')});
-$('#prevBtn').disabled=n===0;$('#nextBtn').style.visibility=n===9?'hidden':'visible';$('#stepInfo').textContent='Bölüm '+(n+1)+' / 10';
-$('.how').style.display=$('.how+p').style.display=n===0?'':'none';const fa=$('.footer-actions');fa.style.display=fa.nextElementSibling.style.display=n===9?'':'none';
-$('.chips').scrollLeft=chips[n].offsetLeft-60;if(sc)secs[n].scrollIntoView({behavior:'smooth',block:'start'})}
-chips.forEach((a,i)=>a.addEventListener('click',e=>{e.preventDefault();go(i)}));
-$('#prevBtn').onclick=()=>go(ui.step-1);$('#nextBtn').onclick=()=>go(ui.step+1);
-$('#studentName').addEventListener('invalid',()=>go(0));
-/* tamamlandı işareti */
-function chk(){secs.forEach((s,i)=>{const f=[...s.querySelectorAll('input,textarea,select')].filter(e=>!e.closest('.tablewrap')&&e.id!=='effort'&&e.id!=='feeling');
-const tb=[...s.querySelectorAll('.tablewrap input:not([type=checkbox]),.tablewrap textarea,.tablewrap select')],g=new Map();
-f.forEach(e=>{const c=e.type==='checkbox',k=c?'c:'+e.name:e.id,ok=c?e.checked:!!e.value.trim();g.set(k,g.get(k)||ok)});
-let ok=[...g.values()].every(Boolean);if(tb.length)ok=ok&&tb.some(e=>e.value.trim());chips[i].classList.toggle('done',ok&&g.size+tb.length>0)})}
-/* tema ve yazı boyutu */
-function applyUI(){document.documentElement.dataset.theme=ui.theme;document.documentElement.style.fontSize=[100,112,125][ui.size]+'%';$('#themeBtn').textContent=ui.theme==='dark'?'☀️ Açık tema':'🌙 Koyu tema';$('#fontBtn').textContent='Yazı: '+['A','A+','A++'][ui.size]}
-$('#themeBtn').onclick=()=>{ui.theme=ui.theme==='dark'?'light':'dark';sv(UI,ui);applyUI()};
-$('#fontBtn').onclick=()=>{ui.size=(ui.size+1)%3;sv(UI,ui);applyUI()};
-addEventListener('beforeprint',()=>document.documentElement.dataset.theme='light');addEventListener('afterprint',applyUI);
-/* seri ve grafik */
-const ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'),today=()=>ymd(new Date());
-function rec(date,p){const h=ld(HK,{});h[date]=Object.assign(h[date]||{},p);sv(HK,h);paint()}
-function paint(){const h=ld(HK,{});let n=0,d=new Date();if(!h[ymd(d)])d.setDate(d.getDate()-1);while(h[ymd(d)]){n++;d.setDate(d.getDate()-1)}
-const m=n>=7?'🏆 Bir hafta düzenli çaba gösterdin!':n>=5?'🥇 5 gün! Düzenin oturuyor.':n>=3?'🌟 3 gün üst üste çalıştın!':n>=1?'🌱 Güzel başlangıç, devam et.':'Bugün küçük bir adım at: bir çalışma bloğu tamamla.';
-$('#streak').textContent=(n?'🔥 '+n+' gün üst üste · ':'')+m;
-const dn=['Pz','Pt','Sa','Ça','Pe','Cu','Ct'];let b='';
-for(let i=6;i>=0;i--){const x=new Date();x.setDate(x.getDate()-i);const r=h[ymd(x)]||{},e=r.effort||0,H=e*14,X=(6-i)*58+10;
-b+='<rect x="'+X+'" y="'+(80-H)+'" width="32" height="'+(H||(r.focus?4:0))+'" rx="5" fill="#dba24f" opacity="'+(e?1:.5)+'"/>'+(e?'<text x="'+(X+16)+'" y="'+(74-H)+'" text-anchor="middle" font-size="11" font-weight="700" fill="currentColor">'+e+'</text>':'')+'<text x="'+(X+16)+'" y="98" text-anchor="middle" font-size="11" fill="currentColor" opacity=".7">'+dn[x.getDay()]+'</text>'}
-$('#effortChart').innerHTML='<svg viewBox="0 0 420 105" role="img" aria-label="Son 7 günün çaba puanları" style="color:var(--ink)">'+b+'</svg>'}
-document.addEventListener('input',e=>{if(e.target.id==='effort')rec($('#todayDate').value||today(),{effort:+e.target.value});chk()});
-document.addEventListener('change',chk);$('#studyForm').addEventListener('reset',()=>setTimeout(chk,0));
-/* zamanlayıcı */
-const T={fm:25,m:'f',left:1500,run:false,end:0,id:0},tt=$('#tTime');
-function draw(){tt.textContent=String(Math.floor(T.left/60)).padStart(2,'0')+':'+String(T.left%60).padStart(2,'0');$('#tMode').textContent=T.m==='f'?'Odak süresi':'Mola süresi';$('#tRing').style.setProperty('--p',100*(1-T.left/((T.m==='f'?T.fm:5)*60)));document.title=T.run?tt.textContent+' • '+TITLE:TITLE}
-function beep(){try{const a=new(window.AudioContext||window.webkitAudioContext)(),o=a.createOscillator(),g=a.createGain();o.connect(g);g.connect(a.destination);o.frequency.value=660;g.gain.value=.15;o.start();o.stop(a.currentTime+.5)}catch(e){}}
-function fin(){clearInterval(T.id);T.run=false;beep();$('#tGo').textContent='Başlat';
-if(T.m==='f'){rec(today(),{focus:1});T.m='b';T.left=300;$('#tMsg').textContent='Süre bitti, aferin! Ayağa kalk, su iç, gözlerini dinlendir. Hazır olunca molayı başlat.';showToast('Mola zamanı!')}
-else{T.m='f';T.left=T.fm*60;$('#tMsg').textContent='Mola bitti. Sıradaki bloğa hazırsan Başlat’a bas.';showToast('Mola bitti')}draw()}
-function tick(){T.left=Math.max(0,Math.round((T.end-Date.now())/1000));draw();if(!T.left)fin()}
-$('#tGo').onclick=()=>{if(T.run){clearInterval(T.id);T.run=false;$('#tGo').textContent='Devam et'}else{T.run=true;T.end=Date.now()+T.left*1000;T.id=setInterval(tick,500);$('#tGo').textContent='Duraklat'}draw()};
-$('#tReset').onclick=()=>{clearInterval(T.id);T.run=false;T.m='f';T.left=T.fm*60;$('#tGo').textContent='Başlat';draw()};
-$$('.tctl .d').forEach(b=>b.onclick=()=>{T.fm=+b.dataset.m;$$('.tctl .d').forEach(x=>x.setAttribute('aria-pressed',x===b));if(!T.run&&T.m==='f'){T.left=T.fm*60;draw()}});
-applyUI();go(ui.step||0,false);chk();paint();draw();
-})();
-</script>
-</body>
-</html>
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  try {
+    var data = parseIncomingData_(e);
+    var keys = Object.keys(data).filter(function (k) {
+      return k !== CONFIG.TIMESTAMP_HEADER;
+    });
+    if (keys.length === 0) throw new Error('Kaydedilecek cevap bulunamadı.');
+    if (keys.length > CONFIG.MAX_FIELDS) throw new Error('Çok fazla alan gönderildi.');
+
+    lock.waitLock(20000);
+
+    var sid = data.submissionId ? String(data.submissionId).slice(0, 60) : '';
+    var cache = CacheService.getScriptCache();
+    if (sid && cache.get('s' + sid)) {
+      return jsonResponse_({ success: true, duplicate: true, message: 'Bu gönderim zaten kaydedilmişti.' });
+    }
+
+    var sheet = getTargetSheet_();
+    var headers = prepareHeaders_(sheet, keys);
+
+    var valueByHeader = {};
+    keys.forEach(function (k) {
+      valueByHeader[headerFor_(k)] = normalizeValue_(k, data[k]);
+    });
+
+    var row = headers.map(function (h) {
+      if (h === CONFIG.TIMESTAMP_HEADER) return new Date();
+      return Object.prototype.hasOwnProperty.call(valueByHeader, h) ? valueByHeader[h] : '';
+    });
+
+    var nextRow = Math.max(sheet.getLastRow(), 1) + 1;
+    if (sheet.getMaxRows() < nextRow) {
+      sheet.insertRowsAfter(sheet.getMaxRows(), nextRow - sheet.getMaxRows());
+    }
+
+    var formats = headers.map(function (h) {
+      return h === CONFIG.TIMESTAMP_HEADER ? 'dd.MM.yyyy HH:mm:ss' : '@';
+    });
+    var range = sheet.getRange(nextRow, 1, 1, row.length);
+    range.setNumberFormats([formats]);
+    range.setValues([row]);
+    SpreadsheetApp.flush();
+
+    if (sid) cache.put('s' + sid, '1', 21600);
+
+    return jsonResponse_({
+      success: true,
+      message: 'Öğrenci cevapları başarıyla kaydedildi.',
+      row: nextRow,
+      fieldsReceived: keys.length,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Cevap kaydetme hatası', error);
+    return jsonResponse_({ success: false, message: (error && error.message) ? error.message : 'Bilinmeyen bir hata oluştu.' });
+  } finally {
+    try { if (lock.hasLock()) lock.releaseLock(); } catch (x) {}
+  }
+}
+
+function prepareHeaders_(sheet, incomingKeys) {
+  var map = keyToHeaderMap_();
+  var schema = getSchema_();
+  var headers = [];
+
+  if (sheet.getLastRow() > 0 && sheet.getLastColumn() > 0) {
+    headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getDisplayValues()[0]
+      .map(function (v) { return String(v).trim(); });
+    while (headers.length && !headers[headers.length - 1]) headers.pop();
+  }
+  var original = headers.slice();
+
+  headers = headers.map(function (h) { return map[h] || h; });
+
+  if (headers.indexOf(CONFIG.TIMESTAMP_HEADER) === -1) {
+    if (headers.length && sheet.getLastRow() > 0) sheet.insertColumnBefore(1);
+    headers.unshift(CONFIG.TIMESTAMP_HEADER);
+  }
+
+  schema.forEach(function (f) {
+    if (headers.indexOf(f.header) === -1) headers.push(f.header);
+  });
+
+  incomingKeys.forEach(function (k) {
+    var h = headerFor_(k);
+    if (headers.indexOf(h) === -1) headers.push(h);
+  });
+
+  var changed = headers.length !== original.length ||
+    headers.some(function (h, i) { return h !== original[i]; });
+
+  if (changed) {
+    if (sheet.getMaxColumns() < headers.length) {
+      sheet.insertColumnsAfter(sheet.getMaxColumns(), headers.length - sheet.getMaxColumns());
+    }
+    var hr = sheet.getRange(1, 1, 1, headers.length);
+    hr.setNumberFormat('@');
+    hr.setValues([headers]);
+    hr.setFontWeight('bold');
+    hr.setFontColor('#dba24f');
+    hr.setBackground('#0a113c');
+    hr.setWrap(true);
+    hr.setVerticalAlignment('top');
+    sheet.setFrozenRows(1);
+    sheet.setFrozenColumns(Math.min(2, headers.length));
+    sheet.setColumnWidths(1, headers.length, 190);
+    sheet.setColumnWidth(1, 150);
+  }
+  return headers;
+}
+
+function parseIncomingData_(e) {
+  if (!e) throw new Error('Gönderilen veri boş.');
+  if (e.postData && e.postData.contents) {
+    try {
+      var parsed = JSON.parse(e.postData.contents);
+      if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) return parsed;
+    } catch (err) {}
+  }
+  if (e.parameter && Object.keys(e.parameter).length > 0) return e.parameter;
+  throw new Error('Gönderilen veri boş veya biçimi geçersiz.');
+}
+
+function getTargetSheet_() {
+  var sheets = SpreadsheetApp.openById(CONFIG.SPREADSHEET_ID).getSheets();
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].getSheetId() === CONFIG.SHEET_ID) return sheets[i];
+  }
+  throw new Error('Hedef sayfa bulunamadı. SHEET_ID (gid) değerini kontrol edin.');
+}
+
+function normalizeValue_(key, value) {
+  if (value === null || value === undefined) return '';
+  if (/^error_redone_/.test(key)) {
+    return (value === 'on' || value === true || value === 'true') ? 'Evet' : '';
+  }
+  if (Array.isArray(value)) {
+    return limit_(value.map(function (v) { return String(v); }).join(', '));
+  }
+  if (typeof value === 'object') return limit_(JSON.stringify(value));
+  return limit_(String(value));
+}
+
+function limit_(s) {
+  return String(s).slice(0, CONFIG.MAX_CELL_CHARS);
+}
+
+function jsonResponse_(data) {
+  return ContentService.createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function testYaz() {
+  var sonuc = doPost({
+    postData: {
+      contents: JSON.stringify({
+        studentName: 'TEST ÖĞRENCİ',
+        termGoal: 'Kurulum denemesi',
+        startDate: '2026-10-30',
+        routine: ['Ödevlerimi ve yaklaşan işleri kontrol ederim', 'Arada ayağa kalkar, su içerim'],
+        errorType: ['Dikkat / okuma'],
+        error_redone_0: 'on',
+        week_time_0: '17.00',
+        week_task_0: 'Fen ödevi',
+        effort: '4',
+        submissionId: 'test-' + new Date().getTime()
+      })
+    }
+  });
+  Logger.log(sonuc.getContent());
+}
+
+function basliklariGuncelle() {
+  var sheet = getTargetSheet_();
+  var lock = LockService.getScriptLock();
+  lock.waitLock(20000);
+  try {
+    prepareHeaders_(sheet, []);
+    Logger.log('Başlıklar güncellendi.');
+  } finally {
+    lock.releaseLock();
+  }
+}

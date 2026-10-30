@@ -217,46 +217,78 @@ document.getElementById('studyForm').addEventListener('submit', async e => {
   e.preventDefault();
 
   const form = document.getElementById('studyForm');
-  if (!form.reportValidity()) return;
-
-  const btn = e.submitter || form.querySelector('button[type="submit"]');
-  const originalText = btn.textContent;
-  const payload = formData();
-
-  // Önce cevapları bu cihazda güvenli biçimde sakla.
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  document.getElementById('saveStatus').textContent =
-    'Son kayıt: ' + new Date().toLocaleTimeString('tr-TR', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-
-  if (!GOOGLE_SCRIPT_URL || !/\/exec(?:$|\?)/.test(GOOGLE_SCRIPT_URL)) {
-    showToast('Google bağlantısı ayarlanmamış. Cevapların bu cihazda saklandı.');
+  if (!form.reportValidity()) {
+    goToFirstInvalidField();
     return;
   }
 
-	  btn.disabled = true;
-	  btn.textContent = 'Gönderiliyor…';
+  const btn = e.submitter || form.querySelector('button[type="submit"]');
+  if (btn.disabled) return;
 
-	  try {
-	    // Apps Script web uygulamaları tarayıcıdan gelen yanıtı CORS ile açmayabilir.
-	    // no-cors isteğin E-Tabloya ulaşmasını sağlar; yanıt gövdesi okunamaz.
-	    await fetch(GOOGLE_SCRIPT_URL, {
-	      method: 'POST',
-	      mode: 'no-cors',
-	      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-	      body: JSON.stringify(payload)
-	    });
-	    showToast('✓ Cevapların E-Tabloya gönderildi. Teşekkürler!');
-	  } catch (err) {
-	    console.error('Form gönderim hatası:', err);
-	    showToast('Gönderim başarısız oldu. Cevapların bu cihazda saklandı.');
-	  } finally {
+  const originalText = btn.textContent;
+  const payload = formData();
+  const status = document.getElementById('saveStatus');
+
+  // Gönderimden önce verileri cihazda sakla. Ağ/Google tarafında sorun olursa
+  // öğrencinin cevapları kaybolmaz ve JSON olarak indirilebilir.
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+  localStorage.setItem(STORAGE_KEY + '-lastSubmission', JSON.stringify({
+    payload,
+    attemptedAt: new Date().toISOString(),
+    state: 'pending'
+  }));
+  status.textContent = 'Cevapların bu cihazda saklandı.';
+
+  if (!GOOGLE_SCRIPT_URL || !/^https:\/\/script\.google\.com\/macros\/s\/.+\/exec(?:\?.*)?$/.test(GOOGLE_SCRIPT_URL)) {
+    showToast('Google bağlantısı geçerli değil. Cevapların bu cihazda saklandı.');
+    status.textContent = 'Google bağlantısı ayarlanmalı; cevapların cihazda saklandı.';
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Gönderim isteği iletiliyor…';
+  status.textContent = 'Google E-Tablolar’a gönderim isteği iletiliyor…';
+
+  try {
+    // Apps Script yanıtı tarayıcı tarafından CORS nedeniyle okunamadığından
+    // no-cors kullanılır. Bu nedenle fetch'in tamamlanması, satırın E-Tabloya
+    // kesin yazıldığını kanıtlamaz; arayüz bunu başarılı kayıt diye göstermemelidir.
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+
+    const last = JSON.parse(localStorage.getItem(STORAGE_KEY + '-lastSubmission') || '{}');
+    last.state = 'sent_unverified';
+    last.requestFinishedAt = new Date().toISOString();
+    localStorage.setItem(STORAGE_KEY + '-lastSubmission', JSON.stringify(last));
+
+    status.textContent = 'Gönderim isteği iletildi. E-Tablo kaydı henüz doğrulanmadı.';
+    showToast('İstek Google’a iletildi. Lütfen kaydın E-Tabloya düştüğünü kontrol et.');
+  } catch (err) {
+    console.error('Google E-Tablolar gönderim hatası:', err);
+    status.textContent = 'Gönderim tamamlanamadı. Cevapların bu cihazda saklandı.';
+    showToast('Bağlantı hatası. Cevapların cihazda saklandı; JSON olarak indirebilirsin.');
+  } finally {
     btn.disabled = false;
     btn.textContent = originalText;
   }
 });
+
+function goToFirstInvalidField() {
+  const firstInvalid = document.querySelector('#studyForm :invalid');
+  if (!firstInvalid) return;
+  const section = firstInvalid.closest('.section');
+  if (section) {
+    const index = [...document.querySelectorAll('#studyForm .section')].indexOf(section);
+    if (typeof go === 'function' && index >= 0) go(index);
+  }
+  firstInvalid.focus({ preventScroll: false });
+}
+
 buildRows();restore();updateProgress();
 </script>
 

@@ -213,6 +213,27 @@ function downloadJSON(){const blob=new Blob([JSON.stringify(formData(),null,2)],
 function showToast(t){const x=document.getElementById('toast');x.textContent=t;x.classList.add('show');clearTimeout(window.toastT);window.toastT=setTimeout(()=>x.classList.remove('show'),Math.max(2400,t.length*70))}
 function updateProgress(){const els=[...document.querySelectorAll('#studyForm input:not([type=checkbox]),#studyForm textarea,#studyForm select')];const done=els.filter(e=>e.value.trim()).length;const pct=Math.round(done/els.length*100);document.getElementById('progressFill').style.width=pct+'%';document.getElementById('progressText').textContent=pct+'%'}
 document.addEventListener('input',()=>{updateProgress();clearTimeout(window.saveTimer);window.saveTimer=setTimeout(()=>localStorage.setItem(STORAGE_KEY,JSON.stringify(formData())),700)});
+async function sendToGoogle(payload){
+  let detail='';
+  try{
+    const res=await fetch(GOOGLE_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(payload)});
+    const out=await res.json().catch(()=>null);
+    if(out&&out.success)return{ok:true};
+    if(out&&out.success===false)return{ok:false,msg:'Kayıt yapılamadı: '+(out.message||'bilinmeyen hata')};
+    detail='cevap okunamadı, kod '+res.status;
+  }catch(err){detail='tarayıcı cevabı okuyamadı';console.warn('POST cevabı okunamadı:',err)}
+  // Cevap okunamadıysa: kayıt gerçekten ulaştı mı?
+  try{
+    const r=await fetch(GOOGLE_SCRIPT_URL+'?ack='+encodeURIComponent(payload.submissionId));
+    const j=await r.json();
+    if(j&&j.saved===true)return{ok:true};
+    if(j&&j.saved===false)return{ok:false,msg:'Kayıt e-tabloya ulaşmadı ('+detail+'). Apps Script yayın ayarını kontrol et.'};
+    return{ok:false,msg:'Apps Script güncel değil: yeni Code.gs kodunu “New version” ile yayınla.'};
+  }catch(err2){
+    console.warn('Doğrulama sorgusu başarısız:',err2);
+    return{ok:null,msg:'Gönderildi ama doğrulanamadı ('+detail+'). Yayın erişimi “Anyone” olmayabilir; e-tabloya bak.'};
+  }
+}
 document.getElementById('studyForm').addEventListener('submit', async e => {
   e.preventDefault();
 
@@ -222,6 +243,7 @@ document.getElementById('studyForm').addEventListener('submit', async e => {
   const btn = e.submitter || form.querySelector('button[type="submit"]');
   const originalText = btn.textContent;
   const payload = formData();
+  payload.submissionId = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
 
   // Önce cevapları bu cihazda güvenli biçimde sakla.
   localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
@@ -240,25 +262,12 @@ document.getElementById('studyForm').addEventListener('submit', async e => {
   btn.textContent = 'Gönderiliyor…';
 
   try {
-    // Cevap okunabilsin diye CORS modunda gönderilir (no-cors kaldırıldı).
-    const res = await fetch(GOOGLE_SCRIPT_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(payload)
-    });
-    let out = null;
-    try { out = await res.json(); } catch (_) {}
-
-    if (out && out.success) {
-      showToast('✓ Cevapların kaydedildi. Teşekkürler!');
-    } else if (out && out.success === false) {
-      showToast('Kayıt yapılamadı: ' + (out.message || 'bilinmeyen hata') + ' Cevapların bu cihazda saklandı.');
-    } else {
-      showToast('Gönderim doğrulanamadı (kod ' + res.status + '). Apps Script yayın ayarını kontrol et. Cevapların bu cihazda saklandı.');
-    }
+    const r = await sendToGoogle(payload);
+    if (r.ok === true) showToast('✓ Cevapların e-tabloya kaydedildi. Teşekkürler!');
+    else showToast(r.msg + ' Cevapların bu cihazda saklandı.');
   } catch (err) {
     console.error('Form gönderim hatası:', err);
-    showToast('Gönderim doğrulanamadı. Öğretmenin e-tabloyu kontrol edebilir; cevapların bu cihazda saklandı.');
+    showToast('Gönderim sırasında beklenmeyen hata oluştu. Cevapların bu cihazda saklandı.');
   } finally {
     btn.disabled = false;
     btn.textContent = originalText;
